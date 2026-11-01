@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import AuthModal from "../src/components/AuthModal";
 
 /* ====== EDIT THESE ====== */
 const PHONE = "916367891848"; // country code + number, no + or spaces
-const ADDRESS = "Your address here, Jaipur";
+const ADDRESS = "S.K tower joshi marg, Jaipur";
 // Put your photo URLs here (or import them). Empty ones show a placeholder.
 const IMAGES = ["https://lh3.googleusercontent.com/gps-cs-s/ANWiy9SVQnVgYzi43i5LLqgTy9SrR5utFNd1hCpy2Yf_4qKVq3YVoy67kETdN6zlDeUhs7eSCYd1WqFphgJJRvF7oZg8vxunUtRUBmSaBeyDsQ00dIDFUl2kt6K9ZuUsZqQFBorCjnpXPvx9qbVH=s1360-w1360-h1020-rw", "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9Qv-3t9yOvCOG6v4Rbxq0JCptJ27ByoZIraN3SJu11b9Ctg1_YUg-r7sCxW36TViuguGd-37UCpOgrkou9sZr5GncConQd-sgK6bpERVBc9HwQ9RiJIhj0DFeEo-4lzFNa4ohPPDaT1riE=s1360-w1360-h1020-rw", "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9S202JJukg8Y_QqBZugDlpm5Ehnhd-PP_sJXcUUsIWcT--g45aLyDWii8Uyva9drkB_Z4xasarkuW4LixnIiu0_hkNCWHWCw5Iv4deJ2-pMtK-x9mWtzZxx5woNrzgEyqLHId5fnD7_5yU=s1360-w1360-h1020-rw", "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9TF7Ph1clFxIveugzuIBe7PWp1sIX47QdT6ff_e977N8qiHj1puOvGswiwQK9yVteJZFlr9w-KDFMAVOqNHC8YW8R5Ud6S0xpg-g1yRMu6Z6er_3yBf6yc-K-ypVg2AHGYL5leQuLJUa3Jw=s1360-w1360-h1020-rw", "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9S18jU1p8l_MBWQMfR6htB9-iUKb6Su5eNlZao_z_PLLzPpZZOoHxHgdcSWSoP4KSyrJfM78huuA2dWqjYP2hq7hR9v354VvmlLPhQTJAsJhUVgcvxz-vcO_3_AxDUT7l0NbtpPKODgsqh9=s1360-w1360-h1020-rw", "https://lh3.googleusercontent.com/gps-cs-s/ANWiy9Q9hVm3JD3SW-9sNXGnuZtFkef1IK1TmgfLtydAd2ncwg4YdDkFmAJ0EZTVxhTR8lsofp7C4ekewT5JMOU5KUvICi_UzJyFERCn4EKuxewQaegpnsNw6X0TcLLZgmq00s1Qpya-x3jqdWrP=s1360-w1360-h1020-rw"];
 const OPEN_HOUR = 7, CLOSE_HOUR = 23; // 7 am to 11 pm
@@ -89,7 +90,8 @@ export default function YashLibrary() {
   const [pos, setPos] = useState({ x: 50, y: 20 });
   const [form, setForm] = useState({ name: "", phone: "", plan: "Full day" });
   const [open, setOpen] = useState(false);
-
+  const [loginOpen, setLoginOpen] = useState(false);
+const [menu, setMenu] = useState(false);
 const OPEN_HOUR = 6;
 const CLOSE_HOUR = 23;
 
@@ -154,19 +156,37 @@ useEffect(() => {
 
       <div className="pointer-events-none fixed inset-0 z-0" style={{ background: `radial-gradient(600px circle at ${pos.x}% ${pos.y}%, rgba(139,92,246,.22), transparent 60%)` }} />
 
-      <header className="fixed top-0 inset-x-0 z-30 backdrop-blur-md bg-[#070B1F]/60 border-b border-white/10">
-        <nav className="max-w-6xl mx-auto flex items-center justify-between px-5 py-4">
-          <span className="disp text-lg">Amaraya    Library</span>
-          <div className="hidden md:flex gap-8 text-lg text-white/75">
-            <a href="#books" className="hover:text-white">Books</a>
-            <a href="#plans" className="hover:text-white">Plans</a>
-            <a href="#features" className="hover:text-white">Features</a>
-            <a href="#gallery" className="hover:text-white">Gallery</a>
-            <a href="#book" className="hover:text-white">Contact</a>
-          </div>
-          <a href="#book" className="disp text-xs px-5 py-3 rounded-full text-[#070B1F] bg-[#FBBF24] hover:scale-105 transition-transform">Book seat</a>
-        </nav>
-      </header>
+     <header className="fixed top-0 inset-x-0 z-40 backdrop-blur-xl bg-[#070B1F]/90 border-b border-white/10">
+  <nav className="max-w-6xl mx-auto h-16 px-4 sm:px-5 flex items-center justify-between gap-3">
+    <a href="#" className="disp text-base sm:text-lg truncate">Amaraya Library</a>
+
+    <div className="hidden lg:flex gap-8 text-lg text-white/75">
+      <a href="#books" className="hover:text-white">Books</a>
+      <a href="#plans" className="hover:text-white">Plans</a>
+      <a href="#features" className="hover:text-white">Features</a>
+      <a href="#gallery" className="hover:text-white">Gallery</a>
+      <a href="#book" className="hover:text-white">Contact</a>
+    </div>
+
+    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+      <button onClick={() => { setMenu(false); setLoginOpen(true); }} className="disp text-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-full border border-white/30 hover:bg-white/10 transition-colors">Login</button>
+      <a href="#book" className="hidden sm:inline-block disp text-xs px-5 py-3 rounded-full text-[#070B1F] bg-[#FBBF24] hover:scale-105 transition-transform">Book seat</a>
+      <button onClick={() => setMenu(!menu)} aria-label={menu ? "Close menu" : "Open menu"} aria-expanded={menu}
+        className="lg:hidden w-10 h-10 rounded-full border border-white/25 text-xl leading-none hover:bg-white/10">{menu ? "✕" : "☰"}</button>
+    </div>
+  </nav>
+
+  {menu && (
+    <div className="lg:hidden border-t border-white/10 px-4 sm:px-5 pb-5">
+      {[["Books", "books"], ["Plans", "plans"], ["Features", "features"], ["Gallery", "gallery"], ["Contact", "book"]].map(([label, id]) => (
+        <a key={id} href={`#${id}`} onClick={() => setMenu(false)} className="flex justify-between py-4 border-b border-white/10 text-xl text-white/85">
+          {label}<span className="text-white/40">→</span>
+        </a>
+      ))}
+      <a href="#book" onClick={() => setMenu(false)} className="mt-4 block text-center disp text-sm py-4 rounded-full text-[#070B1F] bg-[#FBBF24]">Book your seat</a>
+    </div>
+  )}
+</header>
 
       {/* HERO */}
       <section className="relative z-10 pt-28 pb-10 overflow-hidden">
@@ -174,13 +194,13 @@ useEffect(() => {
         <div className="relative max-w-6xl mx-auto px-5 text-center">
           <p className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-lg ${open ? "text-[#2DD4BF]" : "text-[#F87171]"}`}>
             <span className="pulse w-2.5 h-2.5 rounded-full bg-current" />
-            <span className="text-white/90">{open ? "Open now, seats available" : "Closed now. Opens 7 am, Monday to Saturday"}</span>
+            <span className="text-white/90">{open ? "Open now, seats available" : "Closed now. Opens 6 am, Monday to Saturday"}</span>
           </p>
           <h1 className="disp mt-6 text-4xl sm:text-6xl md:text-7xl leading-[1.02]">
             Your seat to <span className="grad-text">success</span><br />is waiting.
           </h1>
           <p className="mt-6 text-xl md:text-2xl text-white/75 max-w-2xl mx-auto leading-relaxed">
-            A calm, comfortable self-study library with your own desk, from 7 am to 11 pm. Study without distraction and reach your goal.
+            A calm, comfortable self-study library with your own desk, from 6 am to 11 pm. Study without distraction and reach your goal.
           </p>
           <div className="mt-8 flex justify-center gap-3 flex-wrap">
             <a href="#plans" className="disp text-sm px-7 py-4 rounded-full text-[#070B1F] bg-[#FBBF24] hover:scale-105 transition-transform">See plans from ₹499</a>
@@ -227,7 +247,7 @@ useEffect(() => {
         <h2 className="disp text-3xl md:text-5xl leading-tight text-center">Simple prices. No hidden charges.</h2>
         <div className="mt-14 grid md:grid-cols-2 gap-8">
           <Plan name="Half day" price="499" note="Morning or evening shift" perks={["Fixed comfortable seat", "AC and WiFi included", "Silent study zone"]} />
-          <Plan hot name="Full day" price="799" note="7 am to 11 pm, all day" perks={["Fixed comfortable seat", "AC, WiFi and charging point", "Silent study zone", "Stay as long as you like"]} />
+          <Plan hot name="Full day" price="799" note="6 am to 11 pm, all day" perks={["Fixed comfortable seat", "AC, WiFi and charging point", "Silent study zone", "Stay as long as you like"]} />
         </div>
         <p className="mt-8 text-center text-white/60 text-lg">Open Monday to Saturday. Closed every Sunday.</p>
       </section>
@@ -307,6 +327,7 @@ useEffect(() => {
         <p className="disp text-white text-lg">Amaraya    Library</p>
         <p className="mt-2">Study hard. Stay focused. Make it happen.</p>
       </footer>
+      <AuthModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </div>
   );
 }
