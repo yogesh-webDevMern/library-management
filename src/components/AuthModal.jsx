@@ -54,14 +54,32 @@ export default function AuthModal({ open, onClose, onSuccess, onLogin = loginApi
   const first = useRef(null);
   const T = THEME[role];
 
-  useEffect(() => {
-    if (!open) return;
-    const esc = (e) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", esc);
-    document.body.style.overflow = "hidden";
-    setTimeout(() => first.current?.focus(), 250);
-    return () => { window.removeEventListener("keydown", esc); document.body.style.overflow = ""; };
-  }, [open, onClose]);
+const onCloseRef = useRef(onClose);
+
+useEffect(() => {
+  onCloseRef.current = onClose;
+}, [onClose]);
+
+useEffect(() => {
+  if (!open) return;
+
+  const esc = (e) => {
+    if (e.key === "Escape") onCloseRef.current?.();
+  };
+
+  window.addEventListener("keydown", esc);
+  document.body.style.overflow = "hidden";
+
+  const timer = setTimeout(() => {
+    first.current?.focus();
+  }, 250);
+
+  return () => {
+    clearTimeout(timer);
+    window.removeEventListener("keydown", esc);
+    document.body.style.overflow = "";
+  };
+}, [open]);
 
   if (!open) return null;
 
