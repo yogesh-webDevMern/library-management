@@ -30,7 +30,6 @@ try {
 } finally {
   setBusy(false);
 }
-    setBusy(false);
   };
 
   return (

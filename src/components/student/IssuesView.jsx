@@ -29,11 +29,34 @@ export default function IssuesView({ complaints, reload }) {
 
       <form onSubmit={submit} className="lb-card p-5 sm:p-6">
         <h3 className="font-bold lb-heading mb-3">Report a problem</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          {CATS.map(({ id, label, icon: Icon }) => (
-            <button type="button" key={id} onClick={() => setCat(id)} className={`lb-chip ${cat === id ? "lb-chip-on" : ""}`}><Icon size={22} />{label}</button>
-          ))}
-        </div>
+     
+<div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+  {CATS.map(({ id, label, icon: Icon }) => {
+    const selected = cat === id;
+
+    return (
+      <button
+        key={id}
+        type="button"
+        aria-pressed={selected}
+        onClick={() => {
+          setCat(id);
+          setErr("");
+        }}
+        className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all ${
+          selected
+            ? "border-blue-500 bg-blue-500/20 text-blue-500"
+            : "border-gray-300 bg-transparent hover:border-blue-400"
+        }`}
+      >
+        <Icon size={25} />
+        <span className="font-semibold">{label}</span>
+        {selected && <span className="text-xs">✓ Selected</span>}
+      </button>
+    );
+  })}
+</div>
+
         <textarea className="lb-input mt-4" rows={3} maxLength={500} placeholder="Describe the problem (for example: the light above seat 14 is not working)" value={text} onChange={(e) => setText(e.target.value)} required />
         <div className="flex items-center justify-between mt-1 text-xs lb-muted"><span>{text.length}/500</span></div>
         <p role="alert" className="mt-2 min-h-[1.25rem] text-sm lb-err">{err}</p>

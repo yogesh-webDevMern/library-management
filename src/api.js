@@ -95,7 +95,7 @@ export const saveMyPhoto = (url) =>
 export const saveDirectorPhoto = (url) =>
   request("/settings/director-photo", {
     method: "PUT",
-    body: { photo: url }
+    body: { url }
   });
 
 // Picture goes from the browser straight to Cloudinary. Our server only signs the upload (and fixes the file name),
